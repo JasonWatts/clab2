@@ -398,7 +398,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  return (x);
 }
 
 /*
@@ -409,7 +409,7 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
-  return 2;
+  return (~(x));
 }
 
 /*
