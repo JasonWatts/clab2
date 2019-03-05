@@ -1,8 +1,8 @@
-/* 
- * CS045 Data Lab 
- * 
+/*
+ * CS045 Data Lab
+ *
  * <Jason Watts jawatts45, Trevor Kirkby tkirkby45, James Something, jsomething45>
- * 
+ *
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in.
  *
@@ -10,7 +10,7 @@
  * compiler. You can still use printf for debugging without including
  * <stdio.h>, although you might get a compiler warning. In general,
  * it's not good practice to ignore compiler warnings, but in this
- * case it's OK.  
+ * case it's OK.
  */
 
 #if 0
@@ -24,11 +24,11 @@ You will provide your solution to the Data Lab by
 editing the collection of functions in this source file.
 
 INTEGER CODING RULES:
- 
+
   Replace the "return" statement in each function with one
-  or more lines of C code that implements the function. Your code 
+  or more lines of C code that implements the function. Your code
   must conform to the following style:
- 
+
   int functionName(arg1, arg2, ...) {
       /* brief description of how your implementation works */
       int var1 = <expression 1>;
@@ -47,7 +47,7 @@ INTEGER CODING RULES:
   2. Function arguments and local variables (no global variables).
   3. Unary integer operations ! ~
   4. Binary integer operations & ^ | + << >>
-    
+
   Some of the problems restrict the set of allowed operators even further.
   Each "<expression>" may consist of multiple operators. You are not restricted to
   one operator per line.
@@ -62,7 +62,7 @@ INTEGER CODING RULES:
   7. Use any data type other than int.  This implies that you
      cannot use arrays, structs, or unions.
 
- 
+
   You may assume that your machine:
   1. Uses 2s complement, 32-bit representations of integers.
   2. Performs right shifts arithmetically.
@@ -106,32 +106,32 @@ You are expressly forbidden to:
 
 
 NOTES:
-  1. Use the dlc (data lab checker) compiler (described in the handout) to 
+  1. Use the dlc (data lab checker) compiler (described in the handout) to
      check the legality of your solutions.
   2. Each function has a maximum number of operators (! ~ & ^ | + << >>)
-     that you are allowed to use for your implementation of the function. 
-     The max operator count is checked by dlc. Note that '=' is not 
+     that you are allowed to use for your implementation of the function.
+     The max operator count is checked by dlc. Note that '=' is not
      counted; you may use as many of these as you want without penalty.
   3. Use the btest test harness to check your functions for correctness.
   4. Use the BDD checker to formally verify your functions
   5. The maximum number of ops for each function is given in the
-     header comment for each function. If there are any inconsistencies 
+     header comment for each function. If there are any inconsistencies
      between the maximum ops in the writeup and in this file, consider
      this file the authoritative source.
 
 /*
  * STEP 2: Modify the following functions according the coding rules.
- * 
+ *
  *   IMPORTANT. TO AVOID GRADING SURPRISES:
  *   1. Use the dlc compiler to check that your solutions conform
  *      to the coding rules.
- *   2. Use the BDD checker to formally verify that your solutions produce 
+ *   2. Use the BDD checker to formally verify that your solutions produce
  *      the correct answers.
  */
 
 
 #endif
-/* 
+/*
  * absVal - absolute value of x
  *   Example: absVal(-1) = 1.
  *   You may assume -TMax <= x <= TMax
@@ -140,28 +140,22 @@ NOTES:
  *   Rating: 4
  */
 int absVal(int x) {
-  return 2;
+  return ~x;
 }
-/* 
+
+/*
  * addOK - Determine if can compute x+y without overflow
  *   Example: addOK(0x80000000,0x80000000) = 0,
- *            addOK(0x80000000,0x70000000) = 1, 
+ *            addOK(0x80000000,0x70000000) = 1,
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 3
  */
 int addOK(int x, int y) {
-
-
-
-
-
-
-
   return 2;
-
 }
-/* 
+
+/*
  * anyOddBit - return 1 if any odd-numbered bit in word set to 1
  *   Examples anyOddBit(0x5) = 0, anyOddBit(0x7) = 1
  *   Legal ops: ! ~ & ^ | + << >>
@@ -169,19 +163,20 @@ int addOK(int x, int y) {
  *   Rating: 2
  */
 int anyOddBit(int x) {
-  char *y = &x;
-  return ((y[0] & 0x55) | (y[1] & 0x55) | (y[2] & 0x55) | (y[3] & 0x55));
+  return !!((x & 0xaa) | ((x >> 8) & 0xaa) | ((x >> 16) & 0xaa) | ((x >> 24) & 0xaa));
 }
-/* 
+
+/*
  * bang - Compute !x without using !
  *   Examples: bang(3) = 0, bang(0) = 1
  *   Legal ops: ~ & ^ | + << >>
  *   Max ops: 12
- *   Rating: 4 
+ *   Rating: 4
  */
 int bang(int x) {
   return 2;
 }
+
 /*
  * bitCount - returns count of number of 1's in word
  *   Examples: bitCount(5) = 2, bitCount(7) = 3
@@ -192,6 +187,7 @@ int bang(int x) {
 int bitCount(int x) {
   return 2;
 }
+
 /*
  * bitParity - returns 1 if x contains an odd number of 0's
  *   Examples: bitParity(5) = 0, bitParity(7) = 1
@@ -202,8 +198,9 @@ int bitCount(int x) {
 int bitParity(int x) {
   return 2;
 }
-/* 
- * bitXor - x^y using only ~ and & 
+
+/*
+ * bitXor - x^y using only ~ and &
  *   Example: bitXor(4, 5) = 1
  *   Legal ops: ~ &
  *   Max ops: 14
@@ -212,7 +209,8 @@ int bitParity(int x) {
 int bitXor(int x, int y) {
   return (~(x & y));
 }
-/* 
+
+/*
  * byteSwap - swaps the nth byte and the mth byte
  *  Examples: byteSwap(0x12345678, 1, 3) = 0x56341278
  *            byteSwap(0xDEADBEEF, 0, 2) = 0xDEEFBEAD
@@ -224,8 +222,9 @@ int bitXor(int x, int y) {
 int byteSwap(int x, int n, int m) {
     return 2;
 }
-/* 
- * conditional - same as x ? y : z 
+
+/*
+ * conditional - same as x ? y : z
  *   Example: conditional(2,4,5) = 4
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 16
@@ -234,7 +233,8 @@ int byteSwap(int x, int n, int m) {
 int conditional(int x, int y, int z) {
   return 2;
 }
-/* 
+
+/*
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
  *  Round toward zero
  *   Examples: divpwr2(15,1) = 7, divpwr2(-33,4) = -2
@@ -245,6 +245,7 @@ int conditional(int x, int y, int z) {
 int divpwr2(int x, int n) {
     return 2;
 }
+
 /*
  * ezThreeFourths - multiplies by 3/4 rounding toward 0,
  *   Should exactly duplicate effect of C expression (x*3/4),
@@ -259,7 +260,8 @@ int divpwr2(int x, int n) {
 int ezThreeFourths(int x) {
   return 2;
 }
-/* 
+
+/*
  * float_abs - Return bit-level equivalent of absolute value of f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
@@ -273,7 +275,8 @@ int ezThreeFourths(int x) {
 unsigned float_abs(unsigned uf) {
   return 2;
 }
-/* 
+
+/*
  * float_f2i - Return bit-level equivalent of expression (int) f
  *   for floating point argument f.
  *   Argument is passed as unsigned int, but
@@ -288,7 +291,8 @@ unsigned float_abs(unsigned uf) {
 int float_f2i(unsigned uf) {
   return 2;
 }
-/* 
+
+/*
  * float_i2f - Return bit-level equivalent of expression (float) x
  *   Result is returned as unsigned int, but
  *   it is to be interpreted as the bit-level representation of a
@@ -300,7 +304,8 @@ int float_f2i(unsigned uf) {
 unsigned float_i2f(int x) {
   return 2;
 }
-/* 
+
+/*
  * float_neg - Return bit-level equivalent of expression -f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
@@ -314,7 +319,8 @@ unsigned float_i2f(int x) {
 unsigned float_neg(unsigned uf) {
  return 2;
 }
-/* 
+
+/*
  * getByte - Extract byte n from word x
  *   Bytes numbered from 0 (LSB) to 3 (MSB)
  *   Examples: getByte(0x12345678,1) = 0x56
@@ -325,7 +331,8 @@ unsigned float_neg(unsigned uf) {
 int getByte(int x, int n) {
   return 2;
 }
-/* 
+
+/*
  * isAsciiDigit - return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters '0' to '9')
  *   Example: isAsciiDigit(0x35) = 1.
  *            isAsciiDigit(0x3a) = 0.
@@ -337,8 +344,9 @@ int getByte(int x, int n) {
 int isAsciiDigit(int x) {
   return 2;
 }
-/* 
- * isEqual - return 1 if x == y, and 0 otherwise 
+
+/*
+ * isEqual - return 1 if x == y, and 0 otherwise
  *   Examples: isEqual(5,5) = 1, isEqual(4,5) = 0
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
@@ -347,8 +355,9 @@ int isAsciiDigit(int x) {
 int isEqual(int x, int y) {
   return 2;
 }
-/* 
- * isNegative - return 1 if x < 0, return 0 otherwise 
+
+/*
+ * isNegative - return 1 if x < 0, return 0 otherwise
  *   Example: isNegative(-1) = 1.
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 6
@@ -357,19 +366,21 @@ int isEqual(int x, int y) {
 int isNegative(int x) {
   return 2;
 }
-/* 
+
+/*
  * isNonZero - Check whether x is nonzero using
  *              the legal operators except !
  *   Examples: isNonZero(3) = 1, isNonZero(0) = 0
  *   Legal ops: ~ & ^ | + << >>
  *   Max ops: 10
- *   Rating: 4 
+ *   Rating: 4
  */
 int isNonZero(int x) {
   return 2;
 }
-/* 
- * isNotEqual - return 0 if x == y, and 1 otherwise 
+
+/*
+ * isNotEqual - return 0 if x == y, and 1 otherwise
  *   Examples: isNotEqual(5,5) = 0, isNotEqual(4,5) = 1
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 6
@@ -378,9 +389,10 @@ int isNonZero(int x) {
 int isNotEqual(int x, int y) {
   return 2;
 }
+
 /*
  * isTmax - returns 1 if x is the maximum, two's complement number,
- *     and 0 otherwise 
+ *     and 0 otherwise
  *   Legal ops: ! ~ & ^ | +
  *   Max ops: 10
  *   Rating: 1
@@ -388,9 +400,10 @@ int isNotEqual(int x, int y) {
 int isTmax(int x) {
   return 2;
 }
+
 /*
  * isTmin - returns 1 if x is the minimum, two's complement number,
- *     and 0 otherwise 
+ *     and 0 otherwise
  *   Legal ops: ! ~ & ^ | +
  *   Max ops: 10
  *   Rating: 1
@@ -398,8 +411,9 @@ int isTmax(int x) {
 int isTmin(int x) {
   return 2;
 }
+
 /*
- * isZero - returns 1 if x == 0, and 0 otherwise 
+ * isZero - returns 1 if x == 0, and 0 otherwise
  *   Examples: isZero(5) = 0, isZero(0) = 1
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 2
@@ -408,19 +422,21 @@ int isTmin(int x) {
 int isZero(int x) {
   return 2;
 }
-/* 
+
+/*
  * leastBitPos - return a mask that marks the position of the
  *               least significant 1 bit. If x == 0, return 0
  *   Example: leastBitPos(96) = 0x20
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 6
- *   Rating: 2 
+ *   Rating: 2
  */
 int leastBitPos(int x) {
   return 2;
 }
-/* 
- * minusOne - return a value of -1 
+
+/*
+ * minusOne - return a value of -1
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 2
  *   Rating: 1
@@ -428,8 +444,9 @@ int leastBitPos(int x) {
 int minusOne(void) {
   return 2;
 }
-/* 
- * negate - return -x 
+
+/*
+ * negate - return -x
  *   Example: negate(1) = -1.
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
@@ -438,7 +455,8 @@ int minusOne(void) {
 int negate(int x) {
   return 2;
 }
-/* 
+
+/*
  * replaceByte(x,n,c) - Replace byte n in x with c
  *   Bytes numbered from 0 (LSB) to 3 (MSB)
  *   Examples: replaceByte(0x12345678,1,0xab) = 0x1234ab78
@@ -450,6 +468,7 @@ int negate(int x) {
 int replaceByte(int x, int n, int c) {
   return 2;
 }
+
 /*
  * satAdd - adds two numbers but when positive overflow occurs, returns
  *          maximum possible value, and when negative overflow occurs,
@@ -463,7 +482,8 @@ int replaceByte(int x, int n, int c) {
 int satAdd(int x, int y) {
   return 2;
 }
-/* 
+
+/*
  * sign - return 1 if positive, 0 if zero, and -1 if negative
  *  Examples: sign(130) = 1
  *            sign(-23) = -1
@@ -474,8 +494,9 @@ int satAdd(int x, int y) {
 int sign(int x) {
     return 2;
 }
-/* 
- * TMax - return maximum two's complement integer 
+
+/*
+ * TMax - return maximum two's complement integer
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 4
  *   Rating: 1
@@ -483,8 +504,9 @@ int sign(int x) {
 int tmax(void) {
   return 2;
 }
-/* 
- * tmin - return minimum two's complement integer 
+
+/*
+ * tmin - return minimum two's complement integer
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 4
  *   Rating: 1
@@ -492,7 +514,8 @@ int tmax(void) {
 int tmin(void) {
   return 2;
 }
-/* 
+
+/*
  * upperBits - pads n upper bits with 1's
  *  You may assume 0 <= n <= 32
  *  Example: upperBits(4) = 0xF0000000
