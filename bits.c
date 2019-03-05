@@ -128,9 +128,8 @@ NOTES:
  *   2. Use the BDD checker to formally verify that your solutions produce
  *      the correct answers.
  */
-
-
 #endif
+
 /*
  * absVal - absolute value of x
  *   Example: absVal(-1) = 1.
@@ -140,7 +139,8 @@ NOTES:
  *   Rating: 4
  */
 int absVal(int x) {
-  return ~x;
+  int y = x >> 31;  //Get the sign bit
+  return (x+y) ^ y; //Equivalent to (x^y) - y
 }
 
 /*
@@ -152,7 +152,7 @@ int absVal(int x) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  return 2;
+  return !(((x >> 24) & 0x80) & ((y >> 24) & 0x80));
 }
 
 /*
@@ -163,7 +163,7 @@ int addOK(int x, int y) {
  *   Rating: 2
  */
 int anyOddBit(int x) {
-  return !!((x & 0xaa) | ((x >> 8) & 0xaa) | ((x >> 16) & 0xaa) | ((x >> 24) & 0xaa));
+  return !!((x & 0xaa) | ((x >> 8) & 0xaa) | ((x >> 16) & 0xaa) | ((x >> 24) & 0xaa)); //Check each byte with a mask of the all odd bits set, and or the results together
 }
 
 /*
