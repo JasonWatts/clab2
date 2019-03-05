@@ -210,7 +210,7 @@ int bitParity(int x) {
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  return (~(x & y));
 }
 /* 
  * byteSwap - swaps the nth byte and the mth byte
