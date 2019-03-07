@@ -174,7 +174,10 @@ int anyOddBit(int x) {
  *   Rating: 4
  */
 int bang(int x) {
-  return 2;
+  int negative_x = ~x+1;
+
+  int bits = (negative_x | x) >> 31; /* -1 or 0 */
+  return bits + 1;
 }
 
 /*
