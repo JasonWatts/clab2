@@ -398,7 +398,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return (x);
+  return (!!x);         
 }
 
 /*
@@ -409,7 +409,8 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
-  return (~(x));
+  return (!(~(x)));    //bitwise not states that if x is zero than return true which covers unsigned minimum values otherwise false.
+                    //TODO: still need to implement signed minimum values...
 }
 
 /*
@@ -420,7 +421,7 @@ int isTmin(int x) {
  *   Rating: 1
  */
 int isZero(int x) {
-  return 2;
+  return (~(x));    //bitwise not states that if x is zero than return true otherwise false
 }
 
 /*
