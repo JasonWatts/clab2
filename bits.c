@@ -25,109 +25,109 @@ editing the collection of functions in this source file.
 
 INTEGER CODING RULES:
 
-  Replace the "return" statement in each function with one
-  or more lines of C code that implements the function. Your code
-  must conform to the following style:
+Replace the "return" statement in each function with one
+or more lines of C code that implements the function. Your code
+must conform to the following style:
 
-  int functionName(arg1, arg2, ...) {
-      /* brief description of how your implementation works */
-      int var1 = <expression 1>;
-      ...
-      int varM = <expression M>;
+int functionName(arg1, arg2, ...) {
+  /* brief description of how your implementation works */
+  int var1 = <expression 1>;
+  ...
+    int varM = <expression M>;
 
-      varJ = <expression>;
-      ...
-      varN = <expression>;
-      return <expression>;
-  }
+  varJ = <expression>;
+  ...
+    varN = <expression>;
+  return <expression>;
+}
 
-  Each "<expression>" is an expression using ONLY the following:
-  1. Integer constants 0 through 255 (0xFF), inclusive. You are
-      not allowed to use big constants such as 0xffffffff.
-  2. Function arguments and local variables (no global variables).
-  3. Unary integer operations ! ~
-  4. Binary integer operations & ^ | + << >>
+Each "<expression>" is an expression using ONLY the following:
+1. Integer constants 0 through 255 (0xFF), inclusive. You are
+not allowed to use big constants such as 0xffffffff.
+2. Function arguments and local variables (no global variables).
+3. Unary integer operations ! ~
+4. Binary integer operations & ^ | + << >>
 
-  Some of the problems restrict the set of allowed operators even further.
-  Each "<expression>" may consist of multiple operators. You are not restricted to
-  one operator per line.
+Some of the problems restrict the set of allowed operators even further.
+Each "<expression>" may consist of multiple operators. You are not restricted to
+one operator per line.
 
-  You are expressly forbidden to:
-  1. Use any control constructs such as if, do, while, for, switch, etc.
-  2. Define or use any macros.
-  3. Define any additional functions in this file.
-  4. Call any functions.
-  5. Use any other operations, such as &&, ||, -, or ?:
-  6. Use any form of casting.
-  7. Use any data type other than int.  This implies that you
-     cannot use arrays, structs, or unions.
+You are expressly forbidden to:
+1. Use any control constructs such as if, do, while, for, switch, etc.
+2. Define or use any macros.
+3. Define any additional functions in this file.
+4. Call any functions.
+5. Use any other operations, such as &&, ||, -, or ?:
+6. Use any form of casting.
+7. Use any data type other than int.  This implies that you
+cannot use arrays, structs, or unions.
 
 
-  You may assume that your machine:
-  1. Uses 2s complement, 32-bit representations of integers.
-  2. Performs right shifts arithmetically.
-  3. Has unpredictable behavior when shifting an integer by more
-     than the word size.
+You may assume that your machine:
+1. Uses 2s complement, 32-bit representations of integers.
+2. Performs right shifts arithmetically.
+3. Has unpredictable behavior when shifting an integer by more
+than the word size.
 
 EXAMPLES OF ACCEPTABLE CODING STYLE:
-  /*
-   * pow2plus1 - returns 2^x + 1, where 0 <= x <= 31
-   */
-  int pow2plus1(int x) {
-     /* exploit ability of shifts to compute powers of 2 */
-     return (1 << x) + 1;
-  }
+/*
+ * pow2plus1 - returns 2^x + 1, where 0 <= x <= 31
+ */
+int pow2plus1(int x) {
+  /* exploit ability of shifts to compute powers of 2 */
+  return (1 << x) + 1;
+}
 
-  /*
-   * pow2plus4 - returns 2^x + 4, where 0 <= x <= 31
-   */
-  int pow2plus4(int x) {
-     /* exploit ability of shifts to compute powers of 2 */
-     int result = (1 << x);
-     result += 4;
-     return result;
-  }
+/*
+ * pow2plus4 - returns 2^x + 4, where 0 <= x <= 31
+ */
+int pow2plus4(int x) {
+  /* exploit ability of shifts to compute powers of 2 */
+  int result = (1 << x);
+  result += 4;
+  return result;
+}
 
 FLOATING POINT CODING RULES
 
 For the problems that require you to implement floating-point operations,
-the coding rules are less strict.  You are allowed to use looping and
-conditional control.  You are allowed to use both ints and unsigneds.
-You can use arbitrary integer and unsigned constants.
+    the coding rules are less strict.  You are allowed to use looping and
+    conditional control.  You are allowed to use both ints and unsigneds.
+    You can use arbitrary integer and unsigned constants.
 
-You are expressly forbidden to:
-  1. Define or use any macros.
-  2. Define any additional functions in this file.
-  3. Call any functions.
-  4. Use any form of casting.
-  5. Use any data type other than int or unsigned.  This means that you
-     cannot use arrays, structs, or unions.
-  6. Use any floating point data types, operations, or constants.
+    You are expressly forbidden to:
+    1. Define or use any macros.
+    2. Define any additional functions in this file.
+    3. Call any functions.
+    4. Use any form of casting.
+    5. Use any data type other than int or unsigned.  This means that you
+    cannot use arrays, structs, or unions.
+    6. Use any floating point data types, operations, or constants.
 
 
-NOTES:
-  1. Use the dlc (data lab checker) compiler (described in the handout) to
-     check the legality of your solutions.
-  2. Each function has a maximum number of operators (! ~ & ^ | + << >>)
-     that you are allowed to use for your implementation of the function.
-     The max operator count is checked by dlc. Note that '=' is not
-     counted; you may use as many of these as you want without penalty.
+    NOTES:
+    1. Use the dlc (data lab checker) compiler (described in the handout) to
+  check the legality of your solutions.
+2. Each function has a maximum number of operators (! ~ & ^ | + << >>)
+  that you are allowed to use for your implementation of the function.
+  The max operator count is checked by dlc. Note that '=' is not
+  counted; you may use as many of these as you want without penalty.
   3. Use the btest test harness to check your functions for correctness.
   4. Use the BDD checker to formally verify your functions
   5. The maximum number of ops for each function is given in the
-     header comment for each function. If there are any inconsistencies
-     between the maximum ops in the writeup and in this file, consider
-     this file the authoritative source.
+  header comment for each function. If there are any inconsistencies
+  between the maximum ops in the writeup and in this file, consider
+  this file the authoritative source.
 
-/*
- * STEP 2: Modify the following functions according the coding rules.
- *
- *   IMPORTANT. TO AVOID GRADING SURPRISES:
- *   1. Use the dlc compiler to check that your solutions conform
- *      to the coding rules.
- *   2. Use the BDD checker to formally verify that your solutions produce
- *      the correct answers.
- */
+  /*
+   * STEP 2: Modify the following functions according the coding rules.
+   *
+   *   IMPORTANT. TO AVOID GRADING SURPRISES:
+   *   1. Use the dlc compiler to check that your solutions conform
+   *      to the coding rules.
+   *   2. Use the BDD checker to formally verify that your solutions produce
+   *      the correct answers.
+   */
 #endif
 
 /*
@@ -178,7 +178,10 @@ int anyOddBit(int x) {
  *   Rating: 4
  */
 int bang(int x) {
-  return 2;
+  int negative_x = ~x+1;
+
+  int bits = (negative_x | x) >> 31; /* -1 or 0 */
+  return bits + 1;
 }
 
 /*
@@ -200,7 +203,11 @@ int bitCount(int x) {
  *   Rating: 4
  */
 int bitParity(int x) {
-  return 2;
+   x ^= x >> 16;
+   x ^= x >> 8;
+   x ^= x >> 4;
+   x &= 0xf;
+   return (0x6996 >> x) & 1;
 }
 
 /*
@@ -224,7 +231,7 @@ int bitXor(int x, int y) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-    return 2;
+  return 2;
 }
 
 /*
@@ -247,7 +254,7 @@ int conditional(int x, int y, int z) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+  return 2;
 }
 
 /*
@@ -321,7 +328,7 @@ unsigned float_i2f(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+  return 2;
 }
 
 /*
@@ -402,7 +409,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  return (!!x);
 }
 
 /*
@@ -413,7 +420,8 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
-  return 2;
+  return (!(~(x)));    //bitwise not states that if x is zero than return true which covers unsigned minimum values otherwise false.
+  //TODO: still need to implement signed minimum values...
 }
 
 /*
@@ -424,7 +432,7 @@ int isTmin(int x) {
  *   Rating: 1
  */
 int isZero(int x) {
-  return 2;
+  return (~(x));    //bitwise not states that if x is zero than return true otherwise false
 }
 
 /*
@@ -446,7 +454,7 @@ int leastBitPos(int x) {
  *   Rating: 1
  */
 int minusOne(void) {
-  return 2;
+  return ~0x00;
 }
 
 /*
@@ -496,7 +504,7 @@ int satAdd(int x, int y) {
  *  Rating: 2
  */
 int sign(int x) {
-    return 2;
+  return 2;
 }
 
 /*
