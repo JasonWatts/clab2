@@ -251,7 +251,7 @@ int conditional(int x, int y, int z) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-  return 2;
+  return x >> n;
 }
 
 /*
@@ -337,7 +337,8 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
-  return 2;
+  int offset = (n << 3); //Equivalent to n * 8, the location of the byte we want
+  return 0xff & (x >> offset); //Offset x to make the byte we want into the first byte, and then mask it with 0xff to clip off any other unwanted bytes
 }
 
 /*
