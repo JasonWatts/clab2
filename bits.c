@@ -204,7 +204,7 @@ int bitParity(int x) {
    x ^= x >> 8;
    x ^= x >> 4;
    x &= 0xf;
-   return (0x6996 >> x) & 1;
+   return (((0x69 << 8) | 0x96) >> x) & 1;
 }
 
 /*
