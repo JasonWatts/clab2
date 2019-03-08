@@ -398,7 +398,7 @@ int isNonZero(int x) {
  *   Rating: 2
  */
 int isNotEqual(int x, int y) {
-  return 2;
+  return !!(x ^ y);
 }
 
 /*
