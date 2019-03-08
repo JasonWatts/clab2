@@ -139,7 +139,7 @@ NOTES:
  *   Rating: 4
  */
 int absVal(int x) {
-  int y = x >> 31;  //Get the sign bit
+  int y = x >> 31;  //Get the sign bit, and repeat it 32 times due to how right shifts work on signed ints
   return (x+y) ^ y; //Equivalent to (x^y) - y
 }
 
@@ -152,7 +152,11 @@ int absVal(int x) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  return !(((x >> 24) & 0x80) & ((y >> 24) & 0x80));
+  int xshift = x >> 31;
+  return (xshift ^ (y >> 31)) | (xshift ^ ((x+y) >> 31));
+  //int y2 = (x & ~sigbit) + y;
+  //printf("%d\n", sigbit);
+  //return !((x & sigbit) & (y2 & sigbit));
 }
 
 /*
