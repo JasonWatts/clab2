@@ -440,7 +440,8 @@ int isZero(int x) {
  *   Rating: 2
  */
 int leastBitPos(int x) {
-  return 2;
+  return x & (~x+1);
+
 }
 
 /*
