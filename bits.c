@@ -153,10 +153,7 @@ int absVal(int x) {
  */
 int addOK(int x, int y) {
   int xshift = x >> 31;
-  return (xshift ^ (y >> 31)) | (xshift ^ ((x+y) >> 31));
-  //int y2 = (x & ~sigbit) + y;
-  //printf("%d\n", sigbit);
-  //return !((x & sigbit) & (y2 & sigbit));
+  return ((xshift ^ (y >> 31)) | !(xshift ^ ((x+y) >> 31))) & 1;
 }
 
 /*
@@ -207,7 +204,7 @@ int bitParity(int x) {
    x ^= x >> 8;
    x ^= x >> 4;
    x &= 0xf;
-   return (0x6996 >> x) & 1;
+   return (((0x69 << 8) | 0x96) >> x) & 1;
 }
 
 /*
@@ -375,7 +372,7 @@ int isEqual(int x, int y) {
  *   Rating: 2
  */
 int isNegative(int x) {
-  return !!(x >> 31);
+  return (x >> 31) & 1;
 }
 
 /*
@@ -387,7 +384,7 @@ int isNegative(int x) {
  *   Rating: 4
  */
 int isNonZero(int x) {
-  return 2;
+  return ((x | (~x + 1)) >> 31) & 1; //Taking advantage of the fact that x != -x iff x is nonzero
 }
 
 /*
@@ -409,7 +406,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return (!!x);
+  return ~x & !((x+1) ^ ~x);
 }
 
 /*
@@ -420,8 +417,12 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
+<<<<<<< HEAD
   return (!(~(x)));    //bitwise not states that if x is zero than return true which covers unsigned minimum values otherwise false.
                       //logical not implements signed minimum values to true.
+=======
+  return (x >> 31) & !x;
+>>>>>>> add787ce1e63084ac4209aa16ea593fd0f2ece22
 }
 
 /*
@@ -432,7 +433,7 @@ int isTmin(int x) {
  *   Rating: 1
  */
 int isZero(int x) {
-  return (~(x));    //bitwise not states that if x is zero than return true otherwise false
+  return !x;
 }
 
 /*
@@ -444,7 +445,8 @@ int isZero(int x) {
  *   Rating: 2
  */
 int leastBitPos(int x) {
-  return 2;
+  return x & (~x+1);
+
 }
 
 /*
@@ -478,7 +480,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int replaceByte(int x, int n, int c) {
-  return 2;
+  return (x & ~(0xff << (n << 3))) | (c << (n << 3));
 }
 
 /*
@@ -517,7 +519,7 @@ int sign(int x) {
  *   Rating: 1
  */
 int tmax(void) {
-  return 2;
+  return ~(1 << 31);
 }
 
 /*
@@ -527,7 +529,7 @@ int tmax(void) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 2;
+  return 1 << 31;
 }
 
 /*
@@ -539,5 +541,5 @@ int tmin(void) {
  *  Rating: 1
  */
 int upperBits(int n) {
-  return 2;
+  return ((!!n) << 31) >> ((n<<1) + ~n);
 }
