@@ -364,7 +364,7 @@ int isAsciiDigit(int x) {
  *   Rating: 2
  */
 int isEqual(int x, int y) {
-  return 2;
+  return !(x ^ y);
 }
 
 /*
@@ -375,7 +375,7 @@ int isEqual(int x, int y) {
  *   Rating: 2
  */
 int isNegative(int x) {
-  return 2;
+  return !!(x >> 31);
 }
 
 /*
