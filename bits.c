@@ -421,7 +421,7 @@ int isTmax(int x) {
  */
 int isTmin(int x) {
   return (!(~(x)));    //bitwise not states that if x is zero than return true which covers unsigned minimum values otherwise false.
-  //TODO: still need to implement signed minimum values...
+                      //logical not implements signed minimum values to true.
 }
 
 /*
@@ -504,7 +504,10 @@ int satAdd(int x, int y) {
  *  Rating: 2
  */
 int sign(int x) {
-  return 2;
+
+  return (~(x)|!x+1|!!x+(-2));      //bitwise not states that if x is zero than return true
+                                    //logical not equates to 0 if x is a positive number
+                                    //two logical nots equate to 1 if x is a negative number
 }
 
 /*
