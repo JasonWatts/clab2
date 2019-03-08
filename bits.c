@@ -465,7 +465,7 @@ int minusOne(void) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ((~x) + 1);
 }
 
 /*
