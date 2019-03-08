@@ -474,7 +474,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int replaceByte(int x, int n, int c) {
-  return x & ((((c << n) << n) << n) << n);
+  return (x & ~(0xff << (n << 3))) | (c << (n << 3));
 }
 
 /*
