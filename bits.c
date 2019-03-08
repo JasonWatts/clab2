@@ -239,7 +239,7 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  return ((x&y)|z);                     //bitwise and states that x and y returns 1 if both are true while bitwise or returns true for z
 }
 
 /*
