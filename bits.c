@@ -417,12 +417,7 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
-<<<<<<< HEAD
-  return (!(~(x)));    //bitwise not states that if x is zero than return true which covers unsigned minimum values otherwise false.
-                      //logical not implements signed minimum values to true.
-=======
   return (x >> 31) & !x;
->>>>>>> add787ce1e63084ac4209aa16ea593fd0f2ece22
 }
 
 /*
