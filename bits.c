@@ -152,8 +152,8 @@ int absVal(int x) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  int xshift = x >> 31;
-  return ((xshift ^ (y >> 31)) | !(xshift ^ ((x+y) >> 31))) & 1;
+  int xshift = x >> 31; //Get the sign bit of x to save an operator use
+  return ((xshift ^ (y >> 31)) | !(xshift ^ ((x+y) >> 31))) & 1; //If overflow happened, that means the signs of x and y have to be the same, and the sign of x+y is different.
 }
 
 /*
@@ -164,7 +164,7 @@ int addOK(int x, int y) {
  *   Rating: 2
  */
 int anyOddBit(int x) {
-  return !!((x & 0xaa) | ((x >> 8) & 0xaa) | ((x >> 16) & 0xaa) | ((x >> 24) & 0xaa)); //Check each byte with a mask of the all odd bits set, and or the results together
+  return !!((x & 0xaa) | ((x >> 8) & 0xaa) | ((x >> 16) & 0xaa) | ((x >> 24) & 0xaa)); //Check each byte with a mask of the all odd bits set, and OR the results together
 }
 
 /*
@@ -361,7 +361,7 @@ int isAsciiDigit(int x) {
  *   Rating: 2
  */
 int isEqual(int x, int y) {
-  return !(x ^ y);
+  return !(x ^ y); //x ^ y returns 0 iff x = y
 }
 
 /*
@@ -372,7 +372,7 @@ int isEqual(int x, int y) {
  *   Rating: 2
  */
 int isNegative(int x) {
-  return (x >> 31) & 1;
+  return (x >> 31) & 1; //Create all 1s or all 0s depending on the sign bit, and then & it with 1 to test which one it is.
 }
 
 /*
@@ -384,7 +384,7 @@ int isNegative(int x) {
  *   Rating: 4
  */
 int isNonZero(int x) {
-  return ((x | (~x + 1)) >> 31) & 1; //Taking advantage of the fact that x != -x iff x is nonzero
+  return ((x | (~x + 1)) >> 31) & 1; //Taking advantage of the fact that x != -x iff x is not zero (where -x = ~x+1)
 }
 
 /*
@@ -395,7 +395,7 @@ int isNonZero(int x) {
  *   Rating: 2
  */
 int isNotEqual(int x, int y) {
-  return !!(x ^ y);
+  return !!(x ^ y); //x ^ y returns 0 iff x = y
 }
 
 /*
@@ -406,7 +406,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return ~x & !((x+1) ^ ~x);
+  return ~x & !((x+1) ^ ~x); //Taking advantage of overflow, Tmax and -1 are the only possible numbers for which x+1 == ~x
 }
 
 /*
@@ -475,7 +475,8 @@ int negate(int x) {
  *   Rating: 3
  */
 int replaceByte(int x, int n, int c) {
-  return (x & ~(0xff << (n << 3))) | (c << (n << 3));
+  int offset = (n << 3); //Equivalent to n * 8, the number of bits we need to offset to access the byte we want.
+  return (x & ~(0xff << offset)) | (c << offset); //Zero out the byte we want to change by ANDing it with a mask, then OR that with C offset into the correct position to set the byte we just zero'd out.
 }
 
 /*
@@ -511,7 +512,7 @@ int sign(int x) {
  *   Rating: 1
  */
 int tmax(void) {
-  return ~(1 << 31);
+  return ~(1 << 31); //Create a 1 in the sign bit, and then bitwise negate it to create a number with 1s in everything but the sign bit.
 }
 
 /*
@@ -521,7 +522,7 @@ int tmax(void) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 1 << 31;
+  return 1 << 31; //Left shift a 1 to the sign bit to make the most negative possible number.
 }
 
 /*
@@ -533,5 +534,5 @@ int tmin(void) {
  *  Rating: 1
  */
 int upperBits(int n) {
-  return ((!!n) << 31) >> ((n<<1) + ~n);
+  return ((!!n) << 31) >> ((n<<1) + ~n); //Create a 1 on the right if n != 0, and then right shift by n-1 (equal to n<<1 + ~n) to create the right number of additional 1s
 }
