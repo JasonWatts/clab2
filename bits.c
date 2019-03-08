@@ -153,10 +153,7 @@ int absVal(int x) {
  */
 int addOK(int x, int y) {
   int xshift = x >> 31;
-  return (xshift ^ (y >> 31)) | (xshift ^ ((x+y) >> 31));
-  //int y2 = (x & ~sigbit) + y;
-  //printf("%d\n", sigbit);
-  //return !((x & sigbit) & (y2 & sigbit));
+  return ((xshift ^ (y >> 31)) | !(xshift ^ ((x+y) >> 31))) & 1;
 }
 
 /*
@@ -375,7 +372,7 @@ int isEqual(int x, int y) {
  *   Rating: 2
  */
 int isNegative(int x) {
-  return !!(x >> 31);
+  return (x >> 31) & 1;
 }
 
 /*
@@ -387,7 +384,7 @@ int isNegative(int x) {
  *   Rating: 4
  */
 int isNonZero(int x) {
-  return 2;
+  return ((x | (~x + 1)) >> 31) & 1; //Taking advantage of the fact that x != -x iff x is nonzero
 }
 
 /*
