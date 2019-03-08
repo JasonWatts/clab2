@@ -406,7 +406,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return (!!x);
+  return ~x & !((x+1) ^ ~x);
 }
 
 /*
@@ -417,8 +417,7 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
-  return (!(~(x)));    //bitwise not states that if x is zero than return true which covers unsigned minimum values otherwise false.
-  //TODO: still need to implement signed minimum values...
+  return (x >> 31) & !x;
 }
 
 /*
@@ -429,7 +428,7 @@ int isTmin(int x) {
  *   Rating: 1
  */
 int isZero(int x) {
-  return (~(x));    //bitwise not states that if x is zero than return true otherwise false
+  return !x;
 }
 
 /*
@@ -475,7 +474,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int replaceByte(int x, int n, int c) {
-  return 2;
+  return x & ((((c << n) << n) << n) << n);
 }
 
 /*
@@ -511,7 +510,7 @@ int sign(int x) {
  *   Rating: 1
  */
 int tmax(void) {
-  return 2;
+  return ~(1 << 31);
 }
 
 /*
@@ -521,7 +520,7 @@ int tmax(void) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 2;
+  return 1 << 31;
 }
 
 /*
@@ -533,5 +532,5 @@ int tmin(void) {
  *  Rating: 1
  */
 int upperBits(int n) {
-  return 2;
+  return ((!!n) << 31) >> ((n<<1) + ~n);
 }
