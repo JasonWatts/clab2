@@ -371,8 +371,8 @@ int getByte(int x, int n) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
-}
+  return !(((0x3a + ~x) >> 31) | ((x + ~0x2f) >> 31)); //If x >= y, then x - y won't be negative, ie the sign bit will not be set.
+}                                                      //Keeping in mind the fact that x - y is the same as x + ~y + 1, and that if x or y is constant we can combine it with the +1 term
 
 /*
  * isEqual - return 1 if x == y, and 0 otherwise
