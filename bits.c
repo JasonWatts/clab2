@@ -427,7 +427,7 @@ int isNotEqual(int x, int y) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return ~x & !((x+1) ^ ~x); //Taking advantage of overflow, Tmax and -1 are the only possible numbers for which x+1 == ~x
+  return !(x+1 ^ ~x) & !!(x+1); //x + 1 == ~x iff x is either tmax or -1. Remove the possibility of x being -1 by &ing the result with !!(x+1) which will be 0 iff x was -1
 }
 
 /*
@@ -438,7 +438,8 @@ int isTmax(int x) {
  *   Rating: 1
  */
 int isTmin(int x) {
-  return (x >> 31) & !x;
+  x = ~x; //Flip x around and then do what we did for isTmax
+  return !(x+1 ^ ~x) & !!(x+1);
 }
 
 /*
@@ -511,7 +512,13 @@ int replaceByte(int x, int n, int c) {
  *   Rating: 4
  */
 int satAdd(int x, int y) {
-  return 2;
+  int z = x+y;
+  int xs = x >> 31;
+  int ys = y >> 31;
+  int zs = z >> 31; //Get the sign bits of x, y, and x+y
+  int overflow = (xs ^ ys) | ~(xs ^ zs); //All 0s if overflow happened, all 1s otherwise
+  int tminmax = (1 << 31) ^ zs; //Assuming overflow *did* happen, we take the biggest possible negative number, and possibly invert it, depending on what direction the overflow occured in
+  return (z & overflow) | (tminmax & ~overflow); //If no overflow, return z, if overflow, return tminmax
 }
 
 /*
