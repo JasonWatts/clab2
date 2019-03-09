@@ -301,8 +301,11 @@ int ezThreeFourths(int x) {
  *   Rating: 2
  */
 unsigned float_abs(unsigned uf) {
+  if ((uf & 0x7fffffff) >= 0x7f800001) { //Test for NaN
+    return uf;    //Apparently the exact same NaN value must be returned
+  }
   return uf & ~(1 << 31); //All we need to do is zero the sign bit.
-}                         //NOTE: I'm *fairly* sure that the automated tests are handling this function incorrectly.
+}
 
 /*
  * float_f2i - Return bit-level equivalent of expression (int) f
@@ -317,7 +320,27 @@ unsigned float_abs(unsigned uf) {
  *   Rating: 4
  */
 int float_f2i(unsigned uf) {
-  return 2;
+  int sign = uf >> 31;
+  int significand = uf & 0x7fffff;
+  int exponent = uf & 0x7f800000;
+  if ((significand | exponent) >= 0x7f800000) { //Test for NaN or Inf
+    return 0x80000000u;
+  }
+  if (exponent) {    //Normalized form
+    exponent >>= 23; //Parse the exponent bits as a regular int by shifting it
+    exponent -= 127; //Assign the bias for a float32
+    significand = 1 + (significand << 24); //Calculate the significand
+  }
+  exponent = -126; //Denormalized form
+  significand = (significand << 24);
+  if (exponent > 0) {
+    significand <<= exponent;
+  } else {
+    int offset = (significand >> 31) & ((1 << exponent) - 1);
+    significand += offset;
+    significand >>= exponent;
+  }
+  return significand | sign;
 }
 
 /*
@@ -345,6 +368,9 @@ unsigned float_i2f(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
+  if ((uf & 0x7fffffff) >= 0x7f800001) { //Test for NaN
+    return uf;    //Apparently the exact same NaN value must be returned
+  }
   return uf ^ (1 << 31); //All we need to do is flip the sign bit
 }
 
