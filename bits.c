@@ -323,24 +323,34 @@ int float_f2i(unsigned uf) {
   int sign = uf >> 31;
   int significand = uf & 0x7fffff;
   int exponent = uf & 0x7f800000;
-  if ((significand | exponent) >= 0x7f800000) { //Test for NaN or Inf
+  if ((uf & 0x7fffffff) >= 0x7f800000) { //Test for NaN or Inf
     return 0x80000000u;
   }
   if (exponent) {    //Normalized form
     exponent >>= 23; //Parse the exponent bits as a regular int by shifting it
     exponent -= 127; //Assign the bias for a float32
-    significand = 1 + (significand << 24); //Calculate the significand
+    significand += (1 << 23); //Add 1 to the significand
+  } else {
+    exponent = -126; //Denormalized form
   }
-  exponent = -126; //Denormalized form
-  significand = (significand << 24);
+  exponent -= 23; //Subtract 23 to make the significand act like a fraction
   if (exponent > 0) {
+    if (exponent >= 32) {
+      return 0x80000000u; //Overflows return this value
+    }
     significand <<= exponent;
   } else {
-    int offset = (significand >> 31) & ((1 << exponent) - 1);
-    significand += offset;
+    exponent = -exponent; //Using divpwr2 method to round down
+    significand += ((significand >> 31) & ((1 << exponent) - 1));
+    if (exponent >= 32) { //C does this silly thing where shifts work on a modulus, which we don't want
+      return 0;
+    }
     significand >>= exponent;
   }
-  return significand | sign;
+  if (sign) {
+    return -significand; //Add the sign bit back in
+  }
+  return significand;
 }
 
 /*
