@@ -524,9 +524,10 @@ int satAdd(int x, int y) {
  */
 int sign(int x) {
 
-  return (~(x)|!x+1|!!x+(-2));      //bitwise not states that if x is zero than return true
+  //return (~(x)|!x+1|!!x+(-2));      //bitwise not states that if x is zero than return true
                                     //logical not equates to 0 if x is a positive number
                                     //two logical nots equate to 1 if x is a negative number
+  return (x >> 31) | !!x; //x >> 31 will be -1 if x is negative, else it will be 0. If x is nonzero, !!x will be 1, which when ORed will set 0 to 1 and leave -1 unaltered.
 }
 
 /*
