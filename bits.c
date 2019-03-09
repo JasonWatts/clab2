@@ -176,7 +176,6 @@ int anyOddBit(int x) {
  */
 int bang(int x) {
   int negative_x = ~x+1;
-
   int bits = (negative_x | x) >> 31; /* -1 or 0 */
   return bits + 1;
 }
@@ -189,7 +188,17 @@ int bang(int x) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  int x55 = (0x55 << 24) | (0x55 << 16) | (0x55 << 8) | 0x55; //Using the parallel algorithm for computing hamming weights
+  int x33 = (0x33 << 24) | (0x33 << 16) | (0x33 << 8) | 0x33; //A pretty clever approach that splits the int up into offset pieces to count the bits
+  int x0F = (0x0F << 24) | (0x0F << 16) | (0x0F << 8) | 0x0F; //First, we create the larger constants necessary for using the parallel algorithm
+  int x0F2 = (0xFF << 16) | 0xFF;                             //There is almost certainly a way to avoid creating larger constants, but we are also allowed plenty of ops on this one
+  int x0F4 = (0xFF << 8) | 0xFF;
+  x = (x & x55) + ((x >> 1) & x55);
+  x = (x & x33) + ((x >> 2) & x33);
+  x = (x + (x >> 4)) & x0F;
+  x = (x + (x >> 8)) & x0F2;
+  x = (x + (x >> 16)) & x0F4;
+  return x;
 }
 
 /*
