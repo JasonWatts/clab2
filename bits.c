@@ -224,7 +224,7 @@ int bitParity(int x) {
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return (~(x & y));
+  return ~(~x & ~y) & ~(x & y); //Using DeMorgan's law to convert XOR to only nots and ands
 }
 
 /*
@@ -237,7 +237,15 @@ int bitXor(int x, int y) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-  return 2;
+  int offsetn = (n << 3); //Equivalent to n * 8, the location of the byte we want
+  int offsetm = (m << 3); //Equivalent to m * 8, the location of the byte we want
+  int n_contents = 0xff & (x >> offsetn); //See getByte
+  int m_contents = 0xff & (x >> offsetm); //Technically, we don't need a second variable to do this, but I am making one for the sake of clarity since we are only limited on use of operators
+  x &= ~(0xff << offsetn); //Clear the byte in position n
+  x &= ~(0xff << offsetm); //Clear the byte in position m
+  x |= m_contents << offsetn; //Set the byte in position n to the former contents of m
+  x |= n_contents << offsetm; //Set the byte in position m to the former contents of n
+  return x;
 }
 
 /*
@@ -248,7 +256,8 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return ((x&y)|z);                     //bitwise and states that x and y returns 1 if both are true while bitwise or returns true for z
+  int xmask = (!x << 31) >> 31; //Create a sequence of all 1s or 0s. Will be 0s if x is true, 1s if x is false.
+  return (~xmask & y) | (xmask & z); //If x is true, xmask will cause y to be returned and z to be zero'd out, but if x is false, xmask will cause the opposite
 }
 
 /*
@@ -259,8 +268,9 @@ int conditional(int x, int y, int z) {
  *   Max ops: 15
  *   Rating: 2
  */
-int divpwr2(int x, int n) {
-  return x >> n;
+int divpwr2(int x, int n) { //If rounding down wasn't a requirement, we could just right shift by n.
+  int offset = (x >> 31) & ((1 << n) + ~0); //As it is, we are still right shifting by n, but we must construct an offset to round x down to the nearest power of 2
+  return (x + offset) >> n;                 //Sign bit & left padding of length n
 }
 
 /*
@@ -275,7 +285,8 @@ int divpwr2(int x, int n) {
  *   Rating: 3
  */
 int ezThreeFourths(int x) {
-  return 2;
+  x += x << 1; //AKA x += 2x, AKA x *= 3
+  return (x + ((x >> 31) & 3)) >> 2;   //Divide by 4 like we would in divpwr2, with some stuff hard-coded since we're always dividing by 4
 }
 
 /*
@@ -290,7 +301,8 @@ int ezThreeFourths(int x) {
  *   Rating: 2
  */
 unsigned float_abs(unsigned uf) {
-  return 2;
+  int s = uf >> 31;  //Floating points have their sign bit in the most significant position, just like in twos complement
+  return (uf+y) ^ y;
 }
 
 /*
@@ -548,4 +560,5 @@ int tmin(void) {
  */
 int upperBits(int n) {
   return ((!!n) << 31) >> ((n<<1) + ~n); //Create a 1 on the right if n != 0, and then right shift by n-1 (equal to n<<1 + ~n) to create the right number of additional 1s
+  //return ~((1 << n) + ~0); //This is really neat way I thought of for padding lowerBits
 }
